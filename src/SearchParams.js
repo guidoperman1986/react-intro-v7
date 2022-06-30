@@ -13,6 +13,7 @@ export const SearchParams = () => {
   const [pets, setPets] = useState([]);
   const [theme, setTheme] = useContext(ThemeContext);
 
+  console.log(breeds);
   useEffect(() => {
     requestPets();
   }, []);
@@ -27,8 +28,9 @@ export const SearchParams = () => {
   }
 
   return (
-    <div className="search-params">
+    <div className="my-0 mx-auto w-11/12">
       <form
+        className="p-10 mb-10 rounded-lg bg-gray-200 shadow-lg flex flex-col justify-center items-center"
         onSubmit={(e) => {
           e.preventDefault();
           requestPets();
@@ -38,9 +40,11 @@ export const SearchParams = () => {
           Location
           <input
             id="location"
+            type="text"
             value={location}
             placeholder="Loaction"
             onChange={(e) => setLocation(e.target.value)}
+            className="w-60 mb-5 block"
           ></input>
         </label>
         <label htmlFor="animal">
@@ -52,6 +56,7 @@ export const SearchParams = () => {
               setAnimal(e.target.value);
               setBreed("");
             }}
+            className="w-60 mb-5 block"
             onBlur={(e) => {
               setAnimal(e.target.value);
               setBreed("");
@@ -69,6 +74,8 @@ export const SearchParams = () => {
         <label htmlFor="breed">
           Breeds
           <select
+            disabled={!breeds[0].length}
+            className="w-60 mb-5 block disabled:opacity-50"
             id="bree"
             value={breed}
             onChange={(e) => {
@@ -78,8 +85,7 @@ export const SearchParams = () => {
               setBreed("");
             }}
           >
-            <option />
-            {breeds.map((breed) => (
+            {breeds[0].map((breed) => (
               <option key={breed} value={breed}>
                 {breed}
               </option>
@@ -90,6 +96,7 @@ export const SearchParams = () => {
           Theme{" "}
           <select
             value={theme}
+            className="w-60 mb-5 block"
             onChange={(e) => setTheme(e.target.value)}
             onBlur={(e) => setTheme(e.target.value)}
           >
@@ -99,7 +106,12 @@ export const SearchParams = () => {
             <option value="mediumorchid">Medium orchid</option>
           </select>
         </label>
-        <button style={{ backgroundColor: theme }}>Submit</button>
+        <button
+          className="rounded px-6 py-2 text-white hover:opacity-50 border-none"
+          style={{ backgroundColor: theme }}
+        >
+          Submit
+        </button>
       </form>
 
       <Results pets={pets} />
